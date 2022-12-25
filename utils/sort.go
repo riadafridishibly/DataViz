@@ -1,7 +1,3 @@
-
-
-
-
 package utils
 
 import "sort"
@@ -9,12 +5,12 @@ import "sort"
 // Sort sorts values (in-place) with respect to the given comparator.
 //
 // Uses Go's sort (hybrid of quicksort for large and then insertion sort for smaller slices).
-func Sort(values []interface{}, comparator Comparator) {
+func Sort(values []any, comparator Comparator) {
 	sort.Sort(sortable{values, comparator})
 }
 
 type sortable struct {
-	values     []interface{}
+	values     []any
 	comparator Comparator
 }
 

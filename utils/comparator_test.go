@@ -1,7 +1,3 @@
-
-
-
-
 package utils
 
 import (
@@ -12,7 +8,7 @@ import (
 func TestIntComparator(t *testing.T) {
 
 	// i1,i2,expected
-	tests := [][]interface{}{
+	tests := [][]any{
 		{1, 1, 0},
 		{1, 2, -1},
 		{2, 1, 1},
@@ -34,7 +30,7 @@ func TestIntComparator(t *testing.T) {
 func TestStringComparator(t *testing.T) {
 
 	// s1,s2,expected
-	tests := [][]interface{}{
+	tests := [][]any{
 		{"a", "a", 0},
 		{"a", "b", -1},
 		{"b", "a", 1},
@@ -59,7 +55,7 @@ func TestTimeComparator(t *testing.T) {
 	now := time.Now()
 
 	// i1,i2,expected
-	tests := [][]interface{}{
+	tests := [][]any{
 		{now, now, 0},
 		{now.Add(24 * 7 * 2 * time.Hour), now, 1},
 		{now, now.Add(24 * 7 * 2 * time.Hour), -1},
@@ -81,7 +77,7 @@ func TestCustomComparator(t *testing.T) {
 		name string
 	}
 
-	byID := func(a, b interface{}) int {
+	byID := func(a, b any) int {
 		c1 := a.(Custom)
 		c2 := b.(Custom)
 		switch {
@@ -95,7 +91,7 @@ func TestCustomComparator(t *testing.T) {
 	}
 
 	// o1,o2,expected
-	tests := [][]interface{}{
+	tests := [][]any{
 		{Custom{1, "a"}, Custom{1, "a"}, 0},
 		{Custom{1, "a"}, Custom{2, "b"}, -1},
 		{Custom{2, "b"}, Custom{1, "a"}, 1},

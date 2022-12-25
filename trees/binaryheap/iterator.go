@@ -2,9 +2,7 @@ package binaryheap
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertIteratorImplementation() {
-	var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
-}
+var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
 
 // Iterator returns a stateful iterator whose values can be fetched by an index.
 type Iterator struct {
@@ -40,7 +38,7 @@ func (iterator *Iterator) Prev() bool {
 
 // Value returns the current element's value.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Value() interface{} {
+func (iterator *Iterator) Value() any {
 	value, _ := iterator.heap.list.Get(iterator.index)
 	return value
 }

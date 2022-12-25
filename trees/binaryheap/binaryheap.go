@@ -17,9 +17,7 @@ import (
 	"github.com/Arafatk/Dataviz/utils"
 )
 
-func assertTreeImplementation() {
-	var _ trees.Tree = (*Heap)(nil)
-}
+var _ trees.Tree = (*Heap)(nil)
 
 // Heap holds elements in an array-list
 type Heap struct {
@@ -43,7 +41,7 @@ func NewWithStringComparator() *Heap {
 }
 
 // Push adds a value onto the heap and bubbles it up accordingly.
-func (heap *Heap) Push(values ...interface{}) {
+func (heap *Heap) Push(values ...any) {
 	if len(values) == 1 {
 		heap.list.Add(values[0])
 		heap.bubbleUp()
@@ -61,7 +59,7 @@ func (heap *Heap) Push(values ...interface{}) {
 
 // Pop removes top element on heap and returns it, or nil if heap is empty.
 // Second return parameter is true, unless the heap was empty and there was nothing to pop.
-func (heap *Heap) Pop() (value interface{}, ok bool) {
+func (heap *Heap) Pop() (value any, ok bool) {
 	value, ok = heap.list.Get(0)
 	if !ok {
 		return
@@ -75,7 +73,7 @@ func (heap *Heap) Pop() (value interface{}, ok bool) {
 
 // Peek returns top element on the heap without removing it, or nil if heap is empty.
 // Second return parameter is true, unless the heap was empty and there was nothing to peek.
-func (heap *Heap) Peek() (value interface{}, ok bool) {
+func (heap *Heap) Peek() (value any, ok bool) {
 	return heap.list.Get(0)
 }
 
@@ -95,7 +93,7 @@ func (heap *Heap) Clear() {
 }
 
 // Values returns all elements in the heap.
-func (heap *Heap) Values() []interface{} {
+func (heap *Heap) Values() []any {
 	return heap.list.Values()
 }
 
@@ -144,7 +142,7 @@ func (heap *Heap) bubbleDownIndex(index int) {
 // to the heap and then runs graphviz to output the resulting image to a file.
 func (heap *Heap) Visualizer(fileName string) bool {
 	size := heap.Size()
-	indexValueMap := make(map[int]interface{})
+	indexValueMap := make(map[int]any)
 	dotString := "digraph graphname{bgcolor=white;"
 	stringValues := []string{}
 	for i := 0; i < (2 * size); i++ {

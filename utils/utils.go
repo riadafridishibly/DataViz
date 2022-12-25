@@ -14,7 +14,7 @@ import (
 )
 
 // ToString converts a value to string.
-func ToString(value interface{}) string {
+func ToString(value any) string {
 	switch value.(type) {
 	case string:
 		return value.(string)

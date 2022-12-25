@@ -13,9 +13,7 @@ import (
 	"github.com/Arafatk/Dataviz/utils"
 )
 
-func assertTreeImplementation() {
-	var _ trees.Tree = new(Tree)
-}
+var _ trees.Tree = new(Tree)
 
 // Tree holds elements of the AVL tree.
 type Tree struct {
@@ -26,8 +24,8 @@ type Tree struct {
 
 // Node is a single element within the tree
 type Node struct {
-	Key      interface{}
-	Value    interface{}
+	Key      any
+	Value    any
 	Parent   *Node    // Parent node
 	Children [2]*Node // Children nodes
 	b        int8
@@ -50,14 +48,14 @@ func NewWithStringComparator() *Tree {
 
 // Put inserts node into the tree.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (t *Tree) Put(key interface{}, value interface{}) {
+func (t *Tree) Put(key any, value any) {
 	t.put(key, value, nil, &t.Root)
 }
 
 // Get searches the node in the tree by key and returns its value or nil if key is not found in tree.
 // Second return parameter is true if key was found, otherwise false.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (t *Tree) Get(key interface{}) (value interface{}, found bool) {
+func (t *Tree) Get(key any) (value any, found bool) {
 	n := t.Root
 	for n != nil {
 		cmp := t.Comparator(key, n.Key)
@@ -75,7 +73,7 @@ func (t *Tree) Get(key interface{}) (value interface{}, found bool) {
 
 // Remove remove the node from the tree by key.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (t *Tree) Remove(key interface{}) {
+func (t *Tree) Remove(key any) {
 	t.remove(key, &t.Root)
 }
 
@@ -90,8 +88,8 @@ func (t *Tree) Size() int {
 }
 
 // Keys returns all keys in-order
-func (t *Tree) Keys() []interface{} {
-	keys := make([]interface{}, t.size)
+func (t *Tree) Keys() []any {
+	keys := make([]any, t.size)
 	it := t.Iterator()
 	for i := 0; it.Next(); i++ {
 		keys[i] = it.Key()
@@ -100,8 +98,8 @@ func (t *Tree) Keys() []interface{} {
 }
 
 // Values returns all values in-order based on the key.
-func (t *Tree) Values() []interface{} {
-	values := make([]interface{}, t.size)
+func (t *Tree) Values() []any {
+	values := make([]any, t.size)
 	it := t.Iterator()
 	for i := 0; it.Next(); i++ {
 		values[i] = it.Value()
@@ -129,7 +127,7 @@ func (t *Tree) Right() *Node {
 // all nodes in the tree is larger than the given node.
 //
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (t *Tree) Floor(key interface{}) (floor *Node, found bool) {
+func (t *Tree) Floor(key any) (floor *Node, found bool) {
 	found = false
 	n := t.Root
 	for n != nil {
@@ -158,7 +156,7 @@ func (t *Tree) Floor(key interface{}) (floor *Node, found bool) {
 // all nodes in the tree is smaller than the given node.
 //
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (t *Tree) Ceiling(key interface{}) (floor *Node, found bool) {
+func (t *Tree) Ceiling(key any) (floor *Node, found bool) {
 	found = false
 	n := t.Root
 	for n != nil {
@@ -202,8 +200,8 @@ func (n *Node) String() string {
 // using dot language and Graphviz. It first producs a dot string corresponding
 // to the avl tree and then runs graphviz to output the resulting image to a file.
 func (t *Tree) Visualizer(fileName string) bool {
-	KeyIntMap := make(map[interface{}]int)
-	IntKeyMap := make(map[int]interface{})
+	KeyIntMap := make(map[any]int)
+	IntKeyMap := make(map[int]any)
 	stringValues := []string{}
 
 	it := t.Iterator()
@@ -235,7 +233,7 @@ func (t *Tree) Visualizer(fileName string) bool {
 	return utils.WriteDotStringToPng(fileName, dotString)
 }
 
-func visHelperMap(node *Node, KeyChildLeft *map[int]int, KeyChildRight *map[int]int, KeyIntMap map[interface{}]int) {
+func visHelperMap(node *Node, KeyChildLeft *map[int]int, KeyChildRight *map[int]int, KeyIntMap map[any]int) {
 	if node.Children[0] != nil {
 		NodeIndex := KeyIntMap[node.Key]
 		ChildNodeIndex := KeyIntMap[node.Children[0].Key]
@@ -251,7 +249,7 @@ func visHelperMap(node *Node, KeyChildLeft *map[int]int, KeyChildRight *map[int]
 	}
 }
 
-func (t *Tree) put(key interface{}, value interface{}, p *Node, qp **Node) bool {
+func (t *Tree) put(key any, value any, p *Node, qp **Node) bool {
 	q := *qp
 	if q == nil {
 		t.size++
@@ -280,7 +278,7 @@ func (t *Tree) put(key interface{}, value interface{}, p *Node, qp **Node) bool 
 	return false
 }
 
-func (t *Tree) remove(key interface{}, qp **Node) bool {
+func (t *Tree) remove(key any, qp **Node) bool {
 	q := *qp
 	if q == nil {
 		return false
@@ -316,7 +314,7 @@ func (t *Tree) remove(key interface{}, qp **Node) bool {
 	return false
 }
 
-func removeMin(qp **Node, minKey *interface{}, minVal *interface{}) bool {
+func removeMin(qp **Node, minKey *any, minVal *any) bool {
 	q := *qp
 	if q.Children[0] == nil {
 		*minKey = q.Key

@@ -2,12 +2,10 @@ package arraylist
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertEnumerableImplementation() {
-	var _ containers.EnumerableWithIndex = (*List)(nil)
-}
+var _ containers.EnumerableWithIndex = (*List)(nil)
 
 // Each calls the given function once for each element, passing that element's index and value.
-func (list *List) Each(f func(index int, value interface{})) {
+func (list *List) Each(f func(index int, value any)) {
 	iterator := list.Iterator()
 	for iterator.Next() {
 		f(iterator.Index(), iterator.Value())
@@ -16,7 +14,7 @@ func (list *List) Each(f func(index int, value interface{})) {
 
 // Map invokes the given function once for each element and returns a
 // container containing the values returned by the given function.
-func (list *List) Map(f func(index int, value interface{}) interface{}) *List {
+func (list *List) Map(f func(index int, value any) any) *List {
 	newList := &List{}
 	iterator := list.Iterator()
 	for iterator.Next() {
@@ -26,7 +24,7 @@ func (list *List) Map(f func(index int, value interface{}) interface{}) *List {
 }
 
 // Select returns a new container containing all elements for which the given function returns a true value.
-func (list *List) Select(f func(index int, value interface{}) bool) *List {
+func (list *List) Select(f func(index int, value any) bool) *List {
 	newList := &List{}
 	iterator := list.Iterator()
 	for iterator.Next() {
@@ -39,7 +37,7 @@ func (list *List) Select(f func(index int, value interface{}) bool) *List {
 
 // Any passes each element of the collection to the given function and
 // returns true if the function ever returns true for any element.
-func (list *List) Any(f func(index int, value interface{}) bool) bool {
+func (list *List) Any(f func(index int, value any) bool) bool {
 	iterator := list.Iterator()
 	for iterator.Next() {
 		if f(iterator.Index(), iterator.Value()) {
@@ -51,7 +49,7 @@ func (list *List) Any(f func(index int, value interface{}) bool) bool {
 
 // All passes each element of the collection to the given function and
 // returns true if the function returns true for all elements.
-func (list *List) All(f func(index int, value interface{}) bool) bool {
+func (list *List) All(f func(index int, value any) bool) bool {
 	iterator := list.Iterator()
 	for iterator.Next() {
 		if !f(iterator.Index(), iterator.Value()) {
@@ -64,7 +62,7 @@ func (list *List) All(f func(index int, value interface{}) bool) bool {
 // Find passes each element of the container to the given function and returns
 // the first (index,value) for which the function is true or -1,nil otherwise
 // if no element matches the criteria.
-func (list *List) Find(f func(index int, value interface{}) bool) (int, interface{}) {
+func (list *List) Find(f func(index int, value any) bool) (int, any) {
 	iterator := list.Iterator()
 	for iterator.Next() {
 		if f(iterator.Index(), iterator.Value()) {

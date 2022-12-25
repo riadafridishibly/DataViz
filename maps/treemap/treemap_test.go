@@ -19,15 +19,15 @@ func TestMapPut(t *testing.T) {
 	if actualValue := m.Size(); actualValue != 7 {
 		t.Errorf("Got %v expected %v", actualValue, 7)
 	}
-	if actualValue, expectedValue := m.Keys(), []interface{}{1, 2, 3, 4, 5, 6, 7}; !sameElements(actualValue, expectedValue) {
+	if actualValue, expectedValue := m.Keys(), []any{1, 2, 3, 4, 5, 6, 7}; !sameElements(actualValue, expectedValue) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
-	if actualValue, expectedValue := m.Values(), []interface{}{"a", "b", "c", "d", "e", "f", "g"}; !sameElements(actualValue, expectedValue) {
+	if actualValue, expectedValue := m.Values(), []any{"a", "b", "c", "d", "e", "f", "g"}; !sameElements(actualValue, expectedValue) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 
 	// key,expectedValue,expectedFound
-	tests1 := [][]interface{}{
+	tests1 := [][]any{
 		{1, "a", true},
 		{2, "b", true},
 		{3, "c", true},
@@ -64,18 +64,18 @@ func TestMapRemove(t *testing.T) {
 	m.Remove(8)
 	m.Remove(5)
 
-	if actualValue, expectedValue := m.Keys(), []interface{}{1, 2, 3, 4}; !sameElements(actualValue, expectedValue) {
+	if actualValue, expectedValue := m.Keys(), []any{1, 2, 3, 4}; !sameElements(actualValue, expectedValue) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 
-	if actualValue, expectedValue := m.Values(), []interface{}{"a", "b", "c", "d"}; !sameElements(actualValue, expectedValue) {
+	if actualValue, expectedValue := m.Values(), []any{"a", "b", "c", "d"}; !sameElements(actualValue, expectedValue) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 	if actualValue := m.Size(); actualValue != 4 {
 		t.Errorf("Got %v expected %v", actualValue, 4)
 	}
 
-	tests2 := [][]interface{}{
+	tests2 := [][]any{
 		{1, "a", true},
 		{2, "b", true},
 		{3, "c", true},
@@ -114,7 +114,7 @@ func TestMapRemove(t *testing.T) {
 	}
 }
 
-func sameElements(a []interface{}, b []interface{}) bool {
+func sameElements(a []any, b []any) bool {
 	if len(a) != len(b) {
 		return false
 	}
@@ -139,7 +139,7 @@ func TestMapEach(t *testing.T) {
 	m.Put("a", 1)
 	m.Put("b", 2)
 	count := 0
-	m.Each(func(key interface{}, value interface{}) {
+	m.Each(func(key any, value any) {
 		count++
 		if actualValue, expectedValue := count, value; actualValue != expectedValue {
 			t.Errorf("Got %v expected %v", actualValue, expectedValue)
@@ -168,7 +168,7 @@ func TestMapMap(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	mappedMap := m.Map(func(key1 interface{}, value1 interface{}) (key2 interface{}, value2 interface{}) {
+	mappedMap := m.Map(func(key1 any, value1 any) (key2 any, value2 any) {
 		return key1, value1.(int) * value1.(int)
 	})
 	if actualValue, _ := mappedMap.Get("a"); actualValue != 1 {
@@ -190,7 +190,7 @@ func TestMapSelect(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	selectedMap := m.Select(func(key interface{}, value interface{}) bool {
+	selectedMap := m.Select(func(key any, value any) bool {
 		return key.(string) >= "a" && key.(string) <= "b"
 	})
 	if actualValue, _ := selectedMap.Get("a"); actualValue != 1 {
@@ -209,17 +209,17 @@ func TestMapAny(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	any := m.Any(func(key interface{}, value interface{}) bool {
+	isAny := m.Any(func(key any, value any) bool {
 		return value.(int) == 3
 	})
-	if any != true {
-		t.Errorf("Got %v expected %v", any, true)
+	if isAny != true {
+		t.Errorf("Got %v expected %v", isAny, true)
 	}
-	any = m.Any(func(key interface{}, value interface{}) bool {
+	isAny = m.Any(func(key any, value any) bool {
 		return value.(int) == 4
 	})
-	if any != false {
-		t.Errorf("Got %v expected %v", any, false)
+	if isAny != false {
+		t.Errorf("Got %v expected %v", isAny, false)
 	}
 }
 
@@ -228,13 +228,13 @@ func TestMapAll(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	all := m.All(func(key interface{}, value interface{}) bool {
+	all := m.All(func(key any, value any) bool {
 		return key.(string) >= "a" && key.(string) <= "c"
 	})
 	if all != true {
 		t.Errorf("Got %v expected %v", all, true)
 	}
-	all = m.All(func(key interface{}, value interface{}) bool {
+	all = m.All(func(key any, value any) bool {
 		return key.(string) >= "a" && key.(string) <= "b"
 	})
 	if all != false {
@@ -247,13 +247,13 @@ func TestMapFind(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	foundKey, foundValue := m.Find(func(key interface{}, value interface{}) bool {
+	foundKey, foundValue := m.Find(func(key any, value any) bool {
 		return key.(string) == "c"
 	})
 	if foundKey != "c" || foundValue != 3 {
 		t.Errorf("Got %v -> %v expected %v -> %v", foundKey, foundValue, "c", 3)
 	}
-	foundKey, foundValue = m.Find(func(key interface{}, value interface{}) bool {
+	foundKey, foundValue = m.Find(func(key any, value any) bool {
 		return key.(string) == "x"
 	})
 	if foundKey != nil || foundValue != nil {
@@ -266,9 +266,9 @@ func TestMapChaining(t *testing.T) {
 	m.Put("c", 3)
 	m.Put("a", 1)
 	m.Put("b", 2)
-	chainedMap := m.Select(func(key interface{}, value interface{}) bool {
+	chainedMap := m.Select(func(key any, value any) bool {
 		return value.(int) > 1
-	}).Map(func(key interface{}, value interface{}) (interface{}, interface{}) {
+	}).Map(func(key any, value any) (any, any) {
 		return key.(string) + key.(string), value.(int) * value.(int)
 	})
 	if actualValue := chainedMap.Size(); actualValue != 2 {

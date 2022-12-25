@@ -15,9 +15,7 @@ import (
 	"github.com/Arafatk/Dataviz/utils"
 )
 
-func assertTreeImplementation() {
-	var _ trees.Tree = (*Tree)(nil)
-}
+var _ trees.Tree = (*Tree)(nil)
 
 type color bool
 
@@ -34,8 +32,8 @@ type Tree struct {
 
 // Node is a single element within the tree
 type Node struct {
-	Key       interface{}
-	Value     interface{}
+	Key       any
+	Value     any
 	color     color
 	nodeIndex int
 	Left      *Node
@@ -60,7 +58,7 @@ func NewWithStringComparator() *Tree {
 
 // Put inserts node into the tree.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (tree *Tree) Put(key interface{}, value interface{}) {
+func (tree *Tree) Put(key any, value any) {
 	var insertedNode *Node
 	if tree.Root == nil {
 		tree.Root = &Node{Key: key, Value: value, color: red}
@@ -102,7 +100,7 @@ func (tree *Tree) Put(key interface{}, value interface{}) {
 // Get searches the node in the tree by key and returns its value or nil if key is not found in tree.
 // Second return parameter is true if key was found, otherwise false.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (tree *Tree) Get(key interface{}) (value interface{}, found bool) {
+func (tree *Tree) Get(key any) (value any, found bool) {
 	node := tree.lookup(key)
 	if node != nil {
 		return node.Value, true
@@ -112,7 +110,7 @@ func (tree *Tree) Get(key interface{}) (value interface{}, found bool) {
 
 // Remove remove the node from the tree by key.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (tree *Tree) Remove(key interface{}) {
+func (tree *Tree) Remove(key any) {
 	var child *Node
 	node := tree.lookup(key)
 	if node == nil {
@@ -153,8 +151,8 @@ func (tree *Tree) Size() int {
 }
 
 // Keys returns all keys in-order
-func (tree *Tree) Keys() []interface{} {
-	keys := make([]interface{}, tree.size)
+func (tree *Tree) Keys() []any {
+	keys := make([]any, tree.size)
 	it := tree.Iterator()
 	for i := 0; it.Next(); i++ {
 		keys[i] = it.Key()
@@ -163,8 +161,8 @@ func (tree *Tree) Keys() []interface{} {
 }
 
 // Values returns all values in-order based on the key.
-func (tree *Tree) Values() []interface{} {
-	values := make([]interface{}, tree.size)
+func (tree *Tree) Values() []any {
+	values := make([]any, tree.size)
 	it := tree.Iterator()
 	for i := 0; it.Next(); i++ {
 		values[i] = it.Value()
@@ -202,7 +200,7 @@ func (tree *Tree) Right() *Node {
 // all nodes in the tree is larger than the given node.
 //
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (tree *Tree) Floor(key interface{}) (floor *Node, found bool) {
+func (tree *Tree) Floor(key any) (floor *Node, found bool) {
 	found = false
 	node := tree.Root
 	for node != nil {
@@ -231,7 +229,7 @@ func (tree *Tree) Floor(key interface{}) (floor *Node, found bool) {
 // all nodes in the tree is smaller than the given node.
 //
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (tree *Tree) Ceiling(key interface{}) (ceiling *Node, found bool) {
+func (tree *Tree) Ceiling(key any) (ceiling *Node, found bool) {
 	found = false
 	node := tree.Root
 	for node != nil {
@@ -350,7 +348,7 @@ func (tree *Tree) Visualizer(fileName string) bool {
 	return utils.WriteDotStringToPng(fileName, dotString)
 }
 
-func (tree *Tree) lookup(key interface{}) *Node {
+func (tree *Tree) lookup(key any) *Node {
 	node := tree.Root
 	for node != nil {
 		compare := tree.Comparator(key, node.Key)

@@ -1,14 +1,8 @@
-
-
-
-
 package singlylinkedlist
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertIteratorImplementation() {
-	var _ containers.IteratorWithIndex = (*Iterator)(nil)
-}
+var _ containers.IteratorWithIndex = (*Iterator)(nil)
 
 // Iterator holding the iterator's state
 type Iterator struct {
@@ -44,7 +38,7 @@ func (iterator *Iterator) Next() bool {
 
 // Value returns the current element's value.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Value() interface{} {
+func (iterator *Iterator) Value() any {
 	return iterator.element.value
 }
 

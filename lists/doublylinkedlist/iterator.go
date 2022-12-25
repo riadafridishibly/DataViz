@@ -2,9 +2,7 @@ package doublylinkedlist
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertIteratorImplementation() {
-	var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
-}
+var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
 
 // Iterator holding the iterator's state
 type Iterator struct {
@@ -59,7 +57,7 @@ func (iterator *Iterator) Prev() bool {
 
 // Value returns the current element's value.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Value() interface{} {
+func (iterator *Iterator) Value() any {
 	return iterator.element.value
 }
 

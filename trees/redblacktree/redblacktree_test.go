@@ -26,7 +26,7 @@ func TestRedBlackTreePut(t *testing.T) {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 
-	tests1 := [][]interface{}{
+	tests1 := [][]any{
 		{1, "a", true},
 		{2, "b", true},
 		{3, "c", true},
@@ -76,7 +76,7 @@ func TestRedBlackTreeRemove(t *testing.T) {
 		t.Errorf("Got %v expected %v", actualValue, 7)
 	}
 
-	tests2 := [][]interface{}{
+	tests2 := [][]any{
 		{1, "a", true},
 		{2, "b", true},
 		{3, "c", true},

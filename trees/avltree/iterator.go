@@ -2,9 +2,7 @@ package avltree
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertIteratorImplementation() {
-	var _ containers.ReverseIteratorWithKey = (*Iterator)(nil)
-}
+var _ containers.ReverseIteratorWithKey = (*Iterator)(nil)
 
 // Iterator holding the iterator's state
 type Iterator struct {
@@ -67,7 +65,7 @@ func (iterator *Iterator) Prev() bool {
 
 // Value returns the current element's value.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Value() interface{} {
+func (iterator *Iterator) Value() any {
 	if iterator.node == nil {
 		return nil
 	}
@@ -76,7 +74,7 @@ func (iterator *Iterator) Value() interface{} {
 
 // Key returns the current element's key.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Key() interface{} {
+func (iterator *Iterator) Key() any {
 	if iterator.node == nil {
 		return nil
 	}

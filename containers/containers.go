@@ -16,12 +16,12 @@ type Container interface {
 	Empty() bool
 	Size() int
 	Clear()
-	Values() []interface{}
+	Values() []any
 }
 
 // GetSortedValues returns sorted container's elements with respect to the passed comparator.
 // Does not effect the ordering of elements within the container.
-func GetSortedValues(container Container, comparator utils.Comparator) []interface{} {
+func GetSortedValues(container Container, comparator utils.Comparator) []any {
 	values := container.Values()
 	if len(values) < 2 {
 		return values

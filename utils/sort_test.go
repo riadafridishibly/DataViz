@@ -1,7 +1,3 @@
-
-
-
-
 package utils
 
 import (
@@ -10,7 +6,7 @@ import (
 )
 
 func TestSortInts(t *testing.T) {
-	ints := []interface{}{}
+	ints := []any{}
 	ints = append(ints, 4)
 	ints = append(ints, 1)
 	ints = append(ints, 2)
@@ -28,7 +24,7 @@ func TestSortInts(t *testing.T) {
 
 func TestSortStrings(t *testing.T) {
 
-	strings := []interface{}{}
+	strings := []any{}
 	strings = append(strings, "d")
 	strings = append(strings, "a")
 	strings = append(strings, "b")
@@ -49,7 +45,7 @@ func TestSortStructs(t *testing.T) {
 		name string
 	}
 
-	byID := func(a, b interface{}) int {
+	byID := func(a, b any) int {
 		c1 := a.(User)
 		c2 := b.(User)
 		switch {
@@ -63,7 +59,7 @@ func TestSortStructs(t *testing.T) {
 	}
 
 	// o1,o2,expected
-	users := []interface{}{
+	users := []any{
 		User{4, "d"},
 		User{1, "a"},
 		User{3, "c"},
@@ -80,7 +76,7 @@ func TestSortStructs(t *testing.T) {
 }
 
 func TestSortRandom(t *testing.T) {
-	ints := []interface{}{}
+	ints := []any{}
 	for i := 0; i < 10000; i++ {
 		ints = append(ints, rand.Int())
 	}
@@ -94,7 +90,7 @@ func TestSortRandom(t *testing.T) {
 
 func BenchmarkGoSortRandom(b *testing.B) {
 	b.StopTimer()
-	ints := []interface{}{}
+	ints := []any{}
 	for i := 0; i < 100000; i++ {
 		ints = append(ints, rand.Int())
 	}

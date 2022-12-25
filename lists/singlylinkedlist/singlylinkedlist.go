@@ -7,14 +7,13 @@ package singlylinkedlist
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/Arafatk/Dataviz/lists"
 	"github.com/Arafatk/Dataviz/utils"
-	"strings"
 )
 
-func assertListImplementation() {
-	var _ lists.List = (*List)(nil)
-}
+var _ lists.List = (*List)(nil)
 
 // List holds the elements, where each element points to the next element
 type List struct {
@@ -24,7 +23,7 @@ type List struct {
 }
 
 type element struct {
-	value interface{}
+	value any
 	next  *element
 }
 
@@ -34,7 +33,7 @@ func New() *List {
 }
 
 // Add appends a value (one or more) at the end of the list (same as Append())
-func (list *List) Add(values ...interface{}) {
+func (list *List) Add(values ...any) {
 	for _, value := range values {
 		newElement := &element{value: value}
 		if list.size == 0 {
@@ -49,12 +48,12 @@ func (list *List) Add(values ...interface{}) {
 }
 
 // Append appends a value (one or more) at the end of the list (same as Add())
-func (list *List) Append(values ...interface{}) {
+func (list *List) Append(values ...any) {
 	list.Add(values...)
 }
 
 // Prepend prepends a values (or more)
-func (list *List) Prepend(values ...interface{}) {
+func (list *List) Prepend(values ...any) {
 	// in reverse to keep passed order i.e. ["c","d"] -> Prepend(["a","b"]) -> ["a","b","c",d"]
 	for v := len(values) - 1; v >= 0; v-- {
 		newElement := &element{value: values[v], next: list.first}
@@ -68,7 +67,7 @@ func (list *List) Prepend(values ...interface{}) {
 
 // Get returns the element at index.
 // Second return parameter is true if index is within bounds of the array and array is not empty, otherwise false.
-func (list *List) Get(index int) (interface{}, bool) {
+func (list *List) Get(index int) (any, bool) {
 
 	if !list.withinRange(index) {
 		return nil, false
@@ -118,7 +117,7 @@ func (list *List) Remove(index int) {
 // All values have to be present in the set for the method to return true.
 // Performance time complexity of n^2.
 // Returns true if no arguments are passed at all, i.e. set is always super-set of empty set.
-func (list *List) Contains(values ...interface{}) bool {
+func (list *List) Contains(values ...any) bool {
 
 	if len(values) == 0 {
 		return true
@@ -142,8 +141,8 @@ func (list *List) Contains(values ...interface{}) bool {
 }
 
 // Values returns all elements in the list.
-func (list *List) Values() []interface{} {
-	values := make([]interface{}, list.size, list.size)
+func (list *List) Values() []any {
+	values := make([]any, list.size, list.size)
 	for e, element := 0, list.first; element != nil; e, element = e+1, element.next {
 		values[e] = element.value
 	}
@@ -151,7 +150,7 @@ func (list *List) Values() []interface{} {
 }
 
 //IndexOf returns index of provided element
-func (list *List) IndexOf(value interface{}) int {
+func (list *List) IndexOf(value any) int {
 	if list.size == 0 {
 		return -1
 	}
@@ -215,7 +214,7 @@ func (list *List) Swap(i, j int) {
 // Insert inserts values at specified index position shifting the value at that position (if any) and any subsequent elements to the right.
 // Does not do anything if position is negative or bigger than list's size
 // Note: position equal to list's size is valid, i.e. append.
-func (list *List) Insert(index int, values ...interface{}) {
+func (list *List) Insert(index int, values ...any) {
 
 	if !list.withinRange(index) {
 		// Append

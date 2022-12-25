@@ -1,13 +1,10 @@
-
-
-
-
 package singlylinkedlist
 
 import (
 	"fmt"
-	"github.com/Arafatk/Dataviz/utils"
 	"testing"
+
+	"github.com/Arafatk/Dataviz/utils"
 )
 
 func TestListAdd(t *testing.T) {
@@ -137,26 +134,26 @@ func TestListIndexOf(t *testing.T) {
 	list := New()
 
 	expectedIndex := -1
-	if index  := list.IndexOf("a"); index != expectedIndex{
-		t.Errorf("Got %v expected %v",index,expectedIndex)
+	if index := list.IndexOf("a"); index != expectedIndex {
+		t.Errorf("Got %v expected %v", index, expectedIndex)
 	}
 
 	list.Add("a")
 	list.Add("b", "c")
 
 	expectedIndex = 0
-	if index  := list.IndexOf("a"); index != expectedIndex{
-		t.Errorf("Got %v expected %v",index,expectedIndex)
+	if index := list.IndexOf("a"); index != expectedIndex {
+		t.Errorf("Got %v expected %v", index, expectedIndex)
 	}
 
 	expectedIndex = 1
-	if index  := list.IndexOf("b"); index != expectedIndex{
-		t.Errorf("Got %v expected %v",index,expectedIndex)
+	if index := list.IndexOf("b"); index != expectedIndex {
+		t.Errorf("Got %v expected %v", index, expectedIndex)
 	}
 
 	expectedIndex = 2
-	if index  := list.IndexOf("c"); index != expectedIndex{
-		t.Errorf("Got %v expected %v",index,expectedIndex)
+	if index := list.IndexOf("c"); index != expectedIndex {
+		t.Errorf("Got %v expected %v", index, expectedIndex)
 	}
 }
 
@@ -180,7 +177,7 @@ func TestListInsert(t *testing.T) {
 func TestListEach(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	list.Each(func(index int, value interface{}) {
+	list.Each(func(index int, value any) {
 		switch index {
 		case 0:
 			if actualValue, expectedValue := value, "a"; actualValue != expectedValue {
@@ -203,7 +200,7 @@ func TestListEach(t *testing.T) {
 func TestListMap(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	mappedList := list.Map(func(index int, value interface{}) interface{} {
+	mappedList := list.Map(func(index int, value any) any {
 		return "mapped: " + value.(string)
 	})
 	if actualValue, _ := mappedList.Get(0); actualValue != "mapped: a" {
@@ -223,7 +220,7 @@ func TestListMap(t *testing.T) {
 func TestListSelect(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	selectedList := list.Select(func(index int, value interface{}) bool {
+	selectedList := list.Select(func(index int, value any) bool {
 		return value.(string) >= "a" && value.(string) <= "b"
 	})
 	if actualValue, _ := selectedList.Get(0); actualValue != "a" {
@@ -240,29 +237,30 @@ func TestListSelect(t *testing.T) {
 func TestListAny(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	any := list.Any(func(index int, value interface{}) bool {
+	isAny := list.Any(func(index int, value any) bool {
 		return value.(string) == "c"
 	})
-	if any != true {
-		t.Errorf("Got %v expected %v", any, true)
+	if isAny != true {
+		t.Errorf("Got %v expected %v", isAny, true)
 	}
-	any = list.Any(func(index int, value interface{}) bool {
+	isAny = list.Any(func(index int, value any) bool {
 		return value.(string) == "x"
 	})
-	if any != false {
-		t.Errorf("Got %v expected %v", any, false)
+	if isAny != false {
+		t.Errorf("Got %v expected %v", isAny, false)
 	}
 }
+
 func TestListAll(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	all := list.All(func(index int, value interface{}) bool {
+	all := list.All(func(index int, value any) bool {
 		return value.(string) >= "a" && value.(string) <= "c"
 	})
 	if all != true {
 		t.Errorf("Got %v expected %v", all, true)
 	}
-	all = list.All(func(index int, value interface{}) bool {
+	all = list.All(func(index int, value any) bool {
 		return value.(string) >= "a" && value.(string) <= "b"
 	})
 	if all != false {
@@ -272,13 +270,13 @@ func TestListAll(t *testing.T) {
 func TestListFind(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	foundIndex, foundValue := list.Find(func(index int, value interface{}) bool {
+	foundIndex, foundValue := list.Find(func(index int, value any) bool {
 		return value.(string) == "c"
 	})
 	if foundValue != "c" || foundIndex != 2 {
 		t.Errorf("Got %v at %v expected %v at %v", foundValue, foundIndex, "c", 2)
 	}
-	foundIndex, foundValue = list.Find(func(index int, value interface{}) bool {
+	foundIndex, foundValue = list.Find(func(index int, value any) bool {
 		return value.(string) == "x"
 	})
 	if foundValue != nil || foundIndex != -1 {
@@ -288,9 +286,9 @@ func TestListFind(t *testing.T) {
 func TestListChaining(t *testing.T) {
 	list := New()
 	list.Add("a", "b", "c")
-	chainedList := list.Select(func(index int, value interface{}) bool {
+	chainedList := list.Select(func(index int, value any) bool {
 		return value.(string) > "a"
-	}).Map(func(index int, value interface{}) interface{} {
+	}).Map(func(index int, value any) any {
 		return value.(string) + value.(string)
 	})
 	if chainedList.Size() != 2 {

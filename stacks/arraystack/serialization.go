@@ -2,10 +2,8 @@ package arraystack
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertSerializationImplementation() {
-	var _ containers.JSONSerializer = (*Stack)(nil)
-	var _ containers.JSONDeserializer = (*Stack)(nil)
-}
+var _ containers.JSONSerializer = (*Stack)(nil)
+var _ containers.JSONDeserializer = (*Stack)(nil)
 
 // ToJSON outputs the JSON representation of list's elements.
 func (stack *Stack) ToJSON() ([]byte, error) {

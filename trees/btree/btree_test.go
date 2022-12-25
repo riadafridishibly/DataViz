@@ -15,7 +15,7 @@ func TestBTreeGet1(t *testing.T) {
 	tree.Put(6, "f")
 	tree.Put(7, "g")
 
-	tests := [][]interface{}{
+	tests := [][]any{
 		{0, nil, false},
 		{1, "a", true},
 		{2, "b", true},
@@ -47,7 +47,7 @@ func TestBTreeGet2(t *testing.T) {
 	tree.Put(2, "b")
 	tree.Put(1, "a")
 
-	tests := [][]interface{}{
+	tests := [][]any{
 		{0, nil, false},
 		{1, "a", true},
 		{2, "b", true},
@@ -1009,7 +1009,7 @@ func TestBTree_search(t *testing.T) {
 	{
 		tree := NewWithIntComparator(3)
 		tree.Root = &Node{Entries: []*Entry{}, Children: make([]*Node, 0)}
-		tests := [][]interface{}{
+		tests := [][]any{
 			{0, 0, false},
 		}
 		for _, test := range tests {
@@ -1025,7 +1025,7 @@ func TestBTree_search(t *testing.T) {
 	{
 		tree := NewWithIntComparator(3)
 		tree.Root = &Node{Entries: []*Entry{{2, 0}, {4, 1}, {6, 2}}, Children: []*Node{}}
-		tests := [][]interface{}{
+		tests := [][]any{
 			{0, 0, false},
 			{1, 0, false},
 			{2, 0, true},

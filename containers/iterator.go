@@ -10,7 +10,7 @@ type IteratorWithIndex interface {
 
 	// Value returns the current element's value.
 	// Does not modify the state of the iterator.
-	Value() interface{}
+	Value() any
 
 	// Index returns the current element's index.
 	// Does not modify the state of the iterator.
@@ -36,11 +36,11 @@ type IteratorWithKey interface {
 
 	// Value returns the current element's value.
 	// Does not modify the state of the iterator.
-	Value() interface{}
+	Value() any
 
 	// Key returns the current element's key.
 	// Does not modify the state of the iterator.
-	Key() interface{}
+	Key() any
 
 	// Begin resets the iterator to its initial state (one-before-first)
 	// Call Next() to fetch the first element if any.

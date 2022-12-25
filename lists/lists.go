@@ -1,7 +1,3 @@
-
-
-
-
 // Package lists provides an abstract List interface.
 //
 // In computer science, a list or sequence is an abstract data type that represents an ordered sequence of values, where the same value may occur more than once. An instance of a list is a computer representation of the mathematical concept of a finite sequence; the (potentially) infinite analog of a list is a stream.  Lists are a basic example of containers, as they contain other values. If the same value occurs multiple times, each occurrence is considered a distinct item.
@@ -16,13 +12,13 @@ import (
 
 // List interface that all lists implement
 type List interface {
-	Get(index int) (interface{}, bool)
+	Get(index int) (any, bool)
 	Remove(index int)
-	Add(values ...interface{})
-	Contains(values ...interface{}) bool
+	Add(values ...any)
+	Contains(values ...any) bool
 	Sort(comparator utils.Comparator)
 	Swap(index1, index2 int)
-	Insert(index int, values ...interface{})
+	Insert(index int, values ...any)
 
 	containers.Container
 	// Empty() bool

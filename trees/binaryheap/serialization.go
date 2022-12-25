@@ -2,10 +2,8 @@ package binaryheap
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertSerializationImplementation() {
-	var _ containers.JSONSerializer = (*Heap)(nil)
-	var _ containers.JSONDeserializer = (*Heap)(nil)
-}
+var _ containers.JSONSerializer = (*Heap)(nil)
+var _ containers.JSONDeserializer = (*Heap)(nil)
 
 // ToJSON outputs the JSON representation of list's elements.
 func (heap *Heap) ToJSON() ([]byte, error) {

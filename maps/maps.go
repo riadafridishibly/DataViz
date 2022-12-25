@@ -15,10 +15,10 @@ import "github.com/Arafatk/Dataviz/containers"
 
 // Map interface that all maps implement
 type Map interface {
-	Put(key interface{}, value interface{})
-	Get(key interface{}) (value interface{}, found bool)
-	Remove(key interface{})
-	Keys() []interface{}
+	Put(key any, value any)
+	Get(key any) (value any, found bool)
+	Remove(key any)
+	Keys() []any
 
 	containers.Container
 	// Empty() bool

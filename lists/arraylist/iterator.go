@@ -2,15 +2,15 @@ package arraylist
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertIteratorImplementation() {
-	var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
-}
+var _ containers.ReverseIteratorWithIndex = (*Iterator)(nil)
 
 // Iterator holding the iterator's state
 type Iterator struct {
 	list  *List
 	index int
 }
+
+func F() {}
 
 // Iterator returns a stateful iterator whose values can be fetched by an index.
 func (list *List) Iterator() Iterator {
@@ -40,7 +40,7 @@ func (iterator *Iterator) Prev() bool {
 
 // Value returns the current element's value.
 // Does not modify the state of the iterator.
-func (iterator *Iterator) Value() interface{} {
+func (iterator *Iterator) Value() any {
 	return iterator.list.elements[iterator.index]
 }
 
