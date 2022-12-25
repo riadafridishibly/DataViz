@@ -11,16 +11,16 @@ import (
 )
 
 // List interface that all lists implement
-type List interface {
-	Get(index int) (any, bool)
-	Remove(index int)
-	Add(values ...any)
-	Contains(values ...any) bool
+type List[T any] interface {
+	Get(index int) (T, bool)
+	Remove(index int) T
+	Add(values ...T)
+	Contains(values ...T) bool
 	Sort(comparator utils.Comparator)
 	Swap(index1, index2 int)
-	Insert(index int, values ...any)
+	Insert(index int, values ...T)
 
-	containers.Container
+	containers.Container[T]
 	// Empty() bool
 	// Size() int
 	// Clear()

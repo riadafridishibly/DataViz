@@ -6,7 +6,7 @@ import (
 )
 
 func TestSortInts(t *testing.T) {
-	ints := []any{}
+	ints := []int{}
 	ints = append(ints, 4)
 	ints = append(ints, 1)
 	ints = append(ints, 2)
@@ -15,7 +15,7 @@ func TestSortInts(t *testing.T) {
 	Sort(ints, IntComparator)
 
 	for i := 1; i < len(ints); i++ {
-		if ints[i-1].(int) > ints[i].(int) {
+		if ints[i-1] > ints[i] {
 			t.Errorf("Not sorted!")
 		}
 	}
@@ -24,7 +24,7 @@ func TestSortInts(t *testing.T) {
 
 func TestSortStrings(t *testing.T) {
 
-	strings := []any{}
+	strings := []string{}
 	strings = append(strings, "d")
 	strings = append(strings, "a")
 	strings = append(strings, "b")
@@ -33,7 +33,7 @@ func TestSortStrings(t *testing.T) {
 	Sort(strings, StringComparator)
 
 	for i := 1; i < len(strings); i++ {
-		if strings[i-1].(string) > strings[i].(string) {
+		if strings[i-1] > strings[i] {
 			t.Errorf("Not sorted!")
 		}
 	}
