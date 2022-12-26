@@ -14,13 +14,13 @@ package maps
 import "github.com/Arafatk/Dataviz/containers"
 
 // Map interface that all maps implement
-type Map interface {
-	Put(key any, value any)
-	Get(key any) (value any, found bool)
-	Remove(key any)
-	Keys() []any
+type Map[K any, V any] interface {
+	Put(key K, value V)
+	Get(key K) (value V, found bool)
+	Remove(key K)
+	Keys() []K
 
-	containers.Container
+	containers.Container[V]
 	// Empty() bool
 	// Size() int
 	// Clear()

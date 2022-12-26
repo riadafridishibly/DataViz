@@ -2,7 +2,7 @@ package arraylist
 
 import "github.com/Arafatk/Dataviz/containers"
 
-func assertions[T comparable]() {
+func assertEnumerableWithIndex[T comparable]() {
 	var _ containers.EnumerableWithIndex[T] = (*List[T])(nil)
 }
 

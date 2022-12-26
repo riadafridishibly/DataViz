@@ -12,8 +12,6 @@ type Iterator[T comparable] struct {
 	index int
 }
 
-func F() {}
-
 // Iterator returns a stateful iterator whose values can be fetched by an index.
 func (list *List[T]) Iterator() Iterator[T] {
 	return Iterator[T]{list: list, index: -1}

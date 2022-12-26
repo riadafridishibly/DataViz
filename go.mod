@@ -2,6 +2,9 @@ module github.com/riadafridishibly/DataViz
 
 go 1.18
 
-replace github.com/Arafatk/Dataviz v0.0.0-20190312232637-a92bdc2b62a5 => github.com/riadafridishibly/DataViz v0.0.0-20190312232637-a92bdc2b62a5
+replace github.com/Arafatk/Dataviz => ../DataViz
 
-require github.com/Arafatk/Dataviz v0.0.0-20190312232637-a92bdc2b62a5
+require (
+	github.com/Arafatk/Dataviz v0.0.0-00010101000000-000000000000
+	golang.org/x/exp v0.0.0-20221217163422-3c43f8badb15
+)

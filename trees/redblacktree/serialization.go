@@ -7,11 +7,13 @@ import (
 	"github.com/Arafatk/Dataviz/utils"
 )
 
-var _ containers.JSONSerializer = (*Tree)(nil)
-var _ containers.JSONDeserializer = (*Tree)(nil)
+func assertJSONSerializerDeserializer[K comparable, V any]() {
+	var _ containers.JSONSerializer = (*Tree[K, V])(nil)
+	var _ containers.JSONDeserializer = (*Tree[K, V])(nil)
+}
 
 // ToJSON outputs the JSON representation of list's elements.
-func (tree *Tree) ToJSON() ([]byte, error) {
+func (tree *Tree[K, V]) ToJSON() ([]byte, error) {
 	elements := make(map[string]any)
 	it := tree.Iterator()
 	for it.Next() {
@@ -20,9 +22,11 @@ func (tree *Tree) ToJSON() ([]byte, error) {
 	return json.Marshal(&elements)
 }
 
+type str string
+
 // FromJSON populates list's elements from the input JSON representation.
-func (tree *Tree) FromJSON(data []byte) error {
-	elements := make(map[string]any)
+func (tree *Tree[K, V]) FromJSON(data []byte) error {
+	elements := make(map[K]V)
 	err := json.Unmarshal(data, &elements)
 	if err == nil {
 		tree.Clear()

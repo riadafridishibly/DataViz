@@ -16,92 +16,94 @@ import (
 	"github.com/Arafatk/Dataviz/utils"
 )
 
-var _ maps.Map = (*Map)(nil)
+func assertMap[K comparable, V any]() {
+	var _ maps.Map[K, V] = (*Map[K, V])(nil)
+}
 
 // Map holds the elements in a red-black tree
-type Map struct {
-	tree *rbt.Tree
+type Map[K comparable, V any] struct {
+	tree *rbt.Tree[K, V]
 }
 
 // NewWith instantiates a tree map with the custom comparator.
-func NewWith(comparator utils.Comparator) *Map {
-	return &Map{tree: rbt.NewWith(comparator)}
+func NewWith[K comparable, V any](comparator utils.Comparator) *Map[K, V] {
+	return &Map[K, V]{tree: rbt.NewWith[K, V](comparator)}
 }
 
 // NewWithIntComparator instantiates a tree map with the IntComparator, i.e. keys are of type int.
-func NewWithIntComparator() *Map {
-	return &Map{tree: rbt.NewWithIntComparator()}
+func NewWithIntComparator[K comparable, V any]() *Map[K, V] {
+	return &Map[K, V]{tree: rbt.NewWithIntComparator[K, V]()}
 }
 
 // NewWithStringComparator instantiates a tree map with the StringComparator, i.e. keys are of type string.
-func NewWithStringComparator() *Map {
-	return &Map{tree: rbt.NewWithStringComparator()}
+func NewWithStringComparator[K comparable, V any]() *Map[K, V] {
+	return &Map[K, V]{tree: rbt.NewWithStringComparator[K, V]()}
 }
 
 // Put inserts key-value pair into the map.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (m *Map) Put(key any, value any) {
+func (m *Map[K, V]) Put(key K, value V) {
 	m.tree.Put(key, value)
 }
 
 // Get searches the element in the map by key and returns its value or nil if key is not found in tree.
 // Second return parameter is true if key was found, otherwise false.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (m *Map) Get(key any) (value any, found bool) {
+func (m *Map[K, V]) Get(key K) (value V, found bool) {
 	return m.tree.Get(key)
 }
 
 // Remove removes the element from the map by key.
 // Key should adhere to the comparator's type assertion, otherwise method panics.
-func (m *Map) Remove(key any) {
+func (m *Map[K, V]) Remove(key K) {
 	m.tree.Remove(key)
 }
 
 // Empty returns true if map does not contain any elements
-func (m *Map) Empty() bool {
+func (m *Map[K, V]) Empty() bool {
 	return m.tree.Empty()
 }
 
 // Size returns number of elements in the map.
-func (m *Map) Size() int {
+func (m *Map[K, V]) Size() int {
 	return m.tree.Size()
 }
 
 // Keys returns all keys in-order
-func (m *Map) Keys() []any {
+func (m *Map[K, V]) Keys() []K {
 	return m.tree.Keys()
 }
 
 // Values returns all values in-order based on the key.
-func (m *Map) Values() []any {
+func (m *Map[K, V]) Values() []V {
 	return m.tree.Values()
 }
 
 // Clear removes all elements from the map.
-func (m *Map) Clear() {
+func (m *Map[K, V]) Clear() {
 	m.tree.Clear()
 }
 
 // Min returns the minimum key and its value from the tree map.
 // Returns nil, nil if map is empty.
-func (m *Map) Min() (key any, value any) {
+func (m *Map[K, V]) Min() (key K, value V, ok bool) {
 	if node := m.tree.Left(); node != nil {
-		return node.Key, node.Value
+		return node.Key, node.Value, true
 	}
-	return nil, nil
+	return key, value, false
 }
 
 // Max returns the maximum key and its value from the tree map.
 // Returns nil, nil if map is empty.
-func (m *Map) Max() (key any, value any) {
+func (m *Map[K, V]) Max() (key K, value V, ok bool) {
 	if node := m.tree.Right(); node != nil {
-		return node.Key, node.Value
+		return node.Key, node.Value, true
 	}
-	return nil, nil
+	return key, value, false
 }
 
 // String returns a string representation of container
-func (m *Map) String() string {
+func (m *Map[K, V]) String() string {
 	str := "TreeMap\nmap["
 	it := m.Iterator()
 	for it.Next() {
@@ -113,6 +115,6 @@ func (m *Map) String() string {
 // Visualizer makes a visual image demonstrating the treemap data structure
 // using dot language and Graphviz. It first producs a dot string corresponding
 // to the treemap and then runs graphviz to output the resulting image to a file.
-func (m *Map) Visualizer(fileName string) bool {
+func (m *Map[K, V]) Visualizer(fileName string) bool {
 	return m.tree.Visualizer(fileName)
 }
